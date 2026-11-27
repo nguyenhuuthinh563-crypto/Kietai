@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiệt – Hỏi đáp Hệ Mặt Trời</title>
+<style>
+:root{--bg:#0e1330;--panel:#171d44;--line:#2c3566;--tx:#e9ecff;--mut:#9aa3d6;--sun:#ffb547;--tea:#5fd4c4;--err:#ff8a8a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+main{max-width:980px;margin:0 auto;padding:20px 16px 40px;display:grid;grid-template-columns:minmax(240px,340px) 1fr;gap:24px;align-items:start}
+@media(max-width:720px){main{grid-template-columns:1fr}}
+h1{grid-column:1/-1;margin:0;font-size:1.5rem;font-weight:700}
+h1 small{display:block;font-size:.9rem;font-weight:400;color:var(--mut)}
+.stage{position:relative;aspect-ratio:1/1.1;border-radius:50% 50% 24px 24px/40% 40% 24px 24px;background:radial-gradient(circle at 50% 38%,#26307a,#121743 70%);border:1px solid var(--line);overflow:hidden}
+.stage svg{position:absolute;inset:0;width:100%;height:100%}
+.ring{position:absolute;left:50%;top:38%;border:1px dashed rgba(255,255,255,.12);border-radius:50%;transform:translate(-50%,-50%)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+#ans{min-height:150px;font-size:1.08rem;white-space:pre-wrap;max-width:68ch}
+#ans.err{color:var(--err);font:14px/1.5 Consolas,monospace}
+.row{display:flex;gap:8px;margin-top:14px}
+input[type=text]{flex:1;min-width:0;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#0c1030;color:var(--tx);font:inherit}
+button,select{font:inherit;color:var(--tx)}
+button{border:0;border-radius:10px;padding:10px 16px;cursor:pointer;background:var(--sun);color:#2a1a00;font-weight:600}
+button.sec{background:#222a5c;color:var(--tx)}
+button.on{background:var(--tea);color:#00221e}
+button:disabled{opacity:.4;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--tea);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chips button{background:transparent;border:1px solid var(--line);color:var(--mut);font-weight:400;padding:6px 12px;font-size:.9rem}
+.chips button:hover{border-color:var(--sun);color:var(--tx)}
+.opts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;color:var(--mut);font-size:.9rem}
+select{background:#0c1030;border:1px solid var(--line);border-radius:8px;padding:6px;max-width:210px}
+.right{display:flex;flex-direction:column;gap:14px}
+.you{color:var(--mut);font-size:.9rem;min-height:1.4em}
+</style>
+</head>
+<body>
+<main>
+<h1>Kiệt – hỏi đáp Hệ Mặt Trời<small>Vật lí 11 · hỏi bằng giọng nói hoặc gõ chữ</small></h1>
+
+<div class="stage" aria-hidden="true">
+<div class="ring" style="width:92%;height:84%"></div><div class="ring" style="width:66%;height:60%"></div>
+<svg viewBox="0 0 300 330">
+ <path d="M130 270v38h40v-38z" fill="#d9a77c"/>
+ <path d="M40 330c0-38 40-52 90-56 10 22 30 22 40 0 50 4 90 18 90 56z" fill="#2f9e92"/>
+ <path d="M122 276l28 28 28-28" fill="none" stroke="#ffb547" stroke-width="6" stroke-linejoin="round"/>
+ <ellipse cx="55" cy="175" rx="12" ry="22" fill="#e5b088"/><ellipse cx="245" cy="175" rx="12" ry="22" fill="#e5b088"/>
+ <ellipse cx="150" cy="170" rx="95" ry="112" fill="#f0c39a"/>
+ <path d="M52 160C40 60 105 26 152 26c52 0 108 36 96 134-8-42-40-62-98-64-58 2-90 22-98 64z" fill="#1d1a26"/>
+ <path d="M70 108c40-6 82-22 100-46 20 26 52 40 72 46-10-30-44-58-92-58-40 0-70 24-80 58z" fill="#1d1a26"/>
+ <circle cx="95" cy="205" r="14" fill="#f2a58a" opacity=".35"/><circle cx="205" cy="205" r="14" fill="#f2a58a" opacity=".35"/>
+ <g id="eyeL" transform="translate(113 165)"><ellipse rx="21" ry="15" fill="#fff"/><circle id="pl" r="8.5" fill="#2a1a14"/><circle id="hl" cx="3" cy="-3" r="2.5" fill="#fff"/><rect id="ll" x="-23" y="-17" width="46" height="0" fill="#f0c39a"/></g>
+ <g id="eyeR" transform="translate(187 165)"><ellipse rx="21" ry="15" fill="#fff"/><circle id="pr" r="8.5" fill="#2a1a14"/><circle cx="3" cy="-3" r="2.5" fill="#fff"/><rect id="lr" x="-23" y="-17" width="46" height="0" fill="#f0c39a"/></g>
+ <path id="bl" d="M90 135q22-14 44-4" fill="none" stroke="#1d1a26" stroke-width="7" stroke-linecap="round"/>
+ <path id="br" d="M166 131q22-10 44 4" fill="none" stroke="#1d1a26" stroke-width="7" stroke-linecap="round"/>
+ <path d="M150 168q-12 34-4 38 6 4 16-2" fill="none" stroke="#c98f66" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+ <path id="mo" d="M114 236Q150 244 186 236Q150 244 114 236Z" fill="#6b1f2a" stroke="#6b1f2a" stroke-width="4" stroke-linejoin="round"/>
+</svg>
+</div>
+
+<div class="right">
+ <div class="panel">
+  <div class="you" id="you"></div>
+  <div id="ans" role="status" aria-live="polite">Đang khởi động… Nếu dòng này không đổi, hãy bật JavaScript hoặc nhấn F12 → Console để xem lỗi.</div>
+  <div class="row">
+   <input type="text" id="q" placeholder="Ví dụ: Sao Hỏa cách Mặt Trời bao xa?" aria-label="Câu hỏi" autocomplete="off">
+   <button id="go">Hỏi</button>
+   <button id="mic" class="sec" aria-label="Hỏi bằng giọng nói" title="Hỏi bằng giọng nói">🎤</button>
+  </div>
+  <div class="chips" id="chips"></div>
+ </div>
+ <div class="panel opts">
+  <button id="mute" class="sec" aria-pressed="false">🔊 Âm thanh: bật</button>
+  <label>Giọng <select id="vsel" aria-label="Chọn giọng đọc"></select></label>
+  <label>Tốc độ <input type="range" id="rate" min="0.6" max="1.4" step="0.1" value="1" aria-label="Tốc độ nói"></label>
+ </div>
+</div>
+</main>
+
+<noscript><p style="padding:16px;color:#ff8a8a">Trang cần bật JavaScript để hoạt động.</p></noscript>
+
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i)};
+var ans=$("ans");
+function showErr(m){ans.className="err";ans.textContent="Lỗi: "+m+"\nMở F12 → Console và gửi lại dòng lỗi này để được sửa."}
+window.addEventListener("error",function(e){showErr(e.message+" (dòng "+e.lineno+")")});
+
+try{
+/* ---------- DỮ LIỆU ---------- */
+// n: tên, k: từ khóa (không dấu), a: AU, d: triệu km, dia: km
+var P=[
+{n:"Sao Thủy",k:"sao thuy|thuy tinh",a:"0,387",d:"57,9",dia:"4 879",T:"88 ngày",rot:"58,6 ngày",m:"không có vệ tinh",t:"từ −173°C đến 427°C",M:"3,30×10²³"},
+{n:"Sao Kim",k:"sao kim",a:"0,723",d:"108,2",dia:"12 104",T:"224,7 ngày",rot:"243 ngày (quay ngược chiều)",m:"không có vệ tinh",t:"khoảng 465°C",M:"4,87×10²⁴"},
+{n:"Trái Đất",k:"trai dat",a:"1,000",d:"149,6",dia:"12 756",T:"365,25 ngày",rot:"23 giờ 56 phút",m:"1 vệ tinh tự nhiên là Mặt Trăng",t:"trung bình khoảng 15°C",M:"5,97×10²⁴"},
+{n:"Sao Hỏa",k:"sao hoa",a:"1,524",d:"227,9",dia:"6 792",T:"687 ngày",rot:"24 giờ 37 phút",m:"2 vệ tinh (Phobos và Deimos)",t:"trung bình khoảng −63°C",M:"6,42×10²³"},
+{n:"Sao Mộc",k:"sao moc",a:"5,203",d:"778,5",dia:"142 984",T:"11,86 năm",rot:"9 giờ 56 phút",m:"hơn 90 vệ tinh",t:"khoảng −110°C ở tầng mây",M:"1,90×10²⁷"},
+{n:"Sao Thổ",k:"sao tho",a:"9,537",d:"1 434",dia:"120 536",T:"29,46 năm",rot:"10 giờ 33 phút",m:"hơn 140 vệ tinh",t:"khoảng −140°C ở tầng mây",M:"5,68×10²⁶"},
+{n:"Sao Thiên Vương",k:"thien vuong",a:"19,19",d:"2 871",dia:"51 118",T:"84,0 năm",rot:"17 giờ 14 phút (quay ngược chiều)",m:"28 vệ tinh",t:"khoảng −195°C",M:"8,68×10²⁵"},
+{n:"Sao Hải Vương",k:"hai vuong",a:"30,07",d:"4 495",dia:"49 528",T:"164,8 năm",rot:"16 giờ 6 phút",m:"16 vệ tinh",t:"khoảng −200°C",M:"1,02×10²⁶"}
+];
+var ATTR=[
+["rot","tu quay|quay quanh truc|mot ngay|do dai ngay"],
+["T","chu ky|quay quanh mat troi|mot nam|bao lau|nam"],
+["dist","khoang cach|cach mat troi|bao xa|xa mat troi|au"],
+["dia","duong kinh|kich thuoc|ban kinh|lon"],
+["moons","ve tinh|may mat trang"],
+["temp","nhiet do|nong|lanh"],
+["mass","khoi luong|nang"]
+];
+var G=[
+["kepler|3 dinh luat|ba dinh luat","Ba định luật Kepler:\n1) Quỹ đạo của hành tinh là elip, Mặt Trời ở một tiêu điểm.\n2) Đoạn thẳng nối Mặt Trời với hành tinh quét những diện tích bằng nhau trong những khoảng thời gian bằng nhau.\n3) T²/a³ là hằng số cho mọi hành tinh. Với a tính bằng AU và T tính bằng năm thì T² = a³."],
+["kepler 1|dinh luat 1|dinh luat thu nhat|dinh luat quy dao","Định luật Kepler 1: mỗi hành tinh chuyển động theo một quỹ đạo elip, Mặt Trời nằm ở một tiêu điểm của elip."],
+["kepler 2|dinh luat 2|dinh luat thu hai|dinh luat dien tich","Định luật Kepler 2: đoạn thẳng nối Mặt Trời với hành tinh quét những diện tích bằng nhau trong những khoảng thời gian bằng nhau. Vì vậy hành tinh chuyển động nhanh nhất ở cận nhật và chậm nhất ở viễn nhật."],
+["kepler 3|dinh luat 3|dinh luat thu ba|dinh luat chu ky","Định luật Kepler 3: tỉ số T²/a³ như nhau với mọi hành tinh quay quanh Mặt Trời (T là chu kỳ, a là bán trục lớn). Với a tính bằng AU và T tính bằng năm thì T² = a³. Bạn thử hỏi: chu kỳ với a = 4 AU."],
+["van vat hap dan|dinh luat hap dan|luc hap dan|newton","Định luật vạn vật hấp dẫn: lực hút giữa hai chất điểm có độ lớn F = G·m₁·m₂/r², với G = 6,67×10⁻¹¹ N·m²/kg². Lực này giữ các hành tinh quay quanh Mặt Trời."],
+["van toc vu tru|toc do thoat|van toc thoat","Vận tốc vũ trụ cấp 1 là 7,9 km/s (bay quanh Trái Đất), cấp 2 là 11,2 km/s (thoát khỏi Trái Đất), cấp 3 là 16,7 km/s (thoát khỏi Hệ Mặt Trời)."],
+["mat troi","Mặt Trời là ngôi sao ở trung tâm Hệ Mặt Trời, bán kính khoảng 696 000 km, khối lượng 1,99×10³⁰ kg (chiếm 99,86% khối lượng cả hệ). Nhiệt độ bề mặt khoảng 5 500°C, lõi khoảng 15 triệu K. Năng lượng đến từ phản ứng nhiệt hạch biến hiđrô thành hêli. Tuổi khoảng 4,6 tỉ năm."],
+["mat trang","Mặt Trăng là vệ tinh tự nhiên của Trái Đất, cách Trái Đất khoảng 384 400 km, đường kính 3 474 km. Nó quay quanh Trái Đất mỗi 27,3 ngày, chu kỳ các pha là 29,5 ngày, và luôn hướng một mặt về phía Trái Đất."],
+["sao choi","Sao chổi là khối băng, bụi và đá chuyển động theo quỹ đạo elip rất dẹt. Khi lại gần Mặt Trời, băng bay hơi tạo thành đuôi luôn hướng ra xa Mặt Trời. Sao chổi Halley có chu kỳ khoảng 76 năm."],
+["tieu hanh tinh|vanh dai","Tiểu hành tinh là những thiên thể đá nhỏ, tập trung nhiều ở vành đai giữa Sao Hỏa và Sao Mộc. Ceres (đường kính khoảng 940 km) là vật lớn nhất, được xếp vào hành tinh lùn."],
+["thuy trieu|trieu cuong|trieu kem","Thủy triều do lực hấp dẫn của Mặt Trăng (và một phần của Mặt Trời) lên nước biển, nên mỗi ngày có hai lần nước lên và hai lần nước xuống. Triều cường xảy ra khi Mặt Trời, Mặt Trăng và Trái Đất gần thẳng hàng (ngày trăng mới và trăng tròn)."],
+["nhat thuc","Nhật thực xảy ra khi Mặt Trăng nằm giữa Mặt Trời và Trái Đất, vào ngày trăng mới, bóng Mặt Trăng đổ xuống một vùng trên Trái Đất."],
+["nguyet thuc","Nguyệt thực xảy ra khi Trái Đất nằm giữa Mặt Trời và Mặt Trăng, vào đêm trăng tròn, Mặt Trăng đi vào bóng của Trái Đất. Không xảy ra mỗi tháng vì quỹ đạo Mặt Trăng nghiêng khoảng 5° so với quỹ đạo Trái Đất."],
+["cac mua|mua trong nam|tai sao co mua|bon mua","Các mùa hình thành do trục quay của Trái Đất nghiêng khoảng 23,5° so với pháp tuyến của mặt phẳng quỹ đạo, không phải do khoảng cách đến Mặt Trời thay đổi."],
+["nguon goc|hinh thanh|ra doi","Hệ Mặt Trời hình thành cách đây khoảng 4,6 tỉ năm từ một đám mây khí và bụi (tinh vân Mặt Trời) co lại dưới tác dụng của lực hấp dẫn. Phần lớn vật chất tụ ở giữa tạo ra Mặt Trời, phần còn lại thành đĩa quay rồi kết tụ thành các hành tinh."],
+["nam anh sang","Năm ánh sáng là quãng đường ánh sáng đi trong chân không trong một năm, khoảng 9,46×10¹² km, tương đương khoảng 63 241 AU."],
+["don vi thien van|1 au|au la gi|dvtv","1 AU (đơn vị thiên văn) bằng khoảng cách trung bình Trái Đất – Mặt Trời, khoảng 1,496×10⁸ km (149,6 triệu km)."],
+["diem vuong|pluto","Sao Diêm Vương là hành tinh lùn từ năm 2006, cách Mặt Trời khoảng 39,5 AU, đường kính khoảng 2 377 km."],
+["may hanh tinh|8 hanh tinh|tam hanh tinh|he mat troi gom|hanh tinh nao","Hệ Mặt Trời có 8 hành tinh, theo thứ tự từ trong ra ngoài: Thủy, Kim, Trái Đất, Hỏa, Mộc, Thổ, Thiên Vương, Hải Vương. Bốn hành tinh trong là hành tinh đá, bốn hành tinh ngoài là hành tinh khí và băng khổng lồ."],
+["hanh tinh lun|hanh tinh lun la gi","Hành tinh lùn là thiên thể quay quanh Mặt Trời, đủ khối lượng để có dạng gần cầu nhưng chưa dọn sạch quỹ đạo của mình. Ví dụ: Diêm Vương, Ceres, Eris, Haumea, Makemake."],
+["hanh tinh da|hanh tinh khi|hanh tinh khong lo|hanh tinh dang khi","Bốn hành tinh trong (Thủy, Kim, Trái Đất, Hỏa) là hành tinh đá: nhỏ, đặc, có bề mặt rắn. Sao Mộc và Sao Thổ là hành tinh khí khổng lồ (chủ yếu hiđrô, hêli); Sao Thiên Vương và Hải Vương là hành tinh băng khổng lồ."],
+["hanh tinh lon nhat|hanh tinh to nhat","Hành tinh lớn nhất là Sao Mộc, đường kính khoảng 139 800 km, khối lượng gấp hơn 300 lần Trái Đất."],
+["hanh tinh nho nhat","Hành tinh nhỏ nhất là Sao Thủy, đường kính khoảng 4 880 km, chỉ lớn hơn Mặt Trăng một chút."],
+["hanh tinh nong nhat","Hành tinh nóng nhất là Sao Kim, khoảng 465°C, do hiệu ứng nhà kính của lớp khí quyển CO₂ rất dày."],
+["hanh tinh lanh nhat","Hành tinh lạnh nhất là Sao Thiên Vương: nhiệt độ có thể xuống khoảng −224°C, thấp hơn cả Sao Hải Vương dù Hải Vương xa Mặt Trời hơn."],
+["hanh tinh gan mat troi nhat","Hành tinh gần Mặt Trời nhất là Sao Thủy, cách khoảng 0,39 AU."],
+["hanh tinh xa mat troi nhat","Hành tinh xa Mặt Trời nhất là Sao Hải Vương, cách khoảng 30,1 AU (gần 4,5 tỉ km)."],
+["vanh dai kuiper|kuiper","Vành đai Kuiper là vùng chứa nhiều thiên thể băng nằm ngoài quỹ đạo Sao Hải Vương, từ khoảng 30 đến 50 AU. Diêm Vương là một thành viên của vùng này."],
+["may oort|oort","Đám mây Oort là vùng giả thuyết hình cầu bao quanh Hệ Mặt Trời ở khoảng vài chục nghìn AU, được cho là nguồn của các sao chổi chu kỳ dài."],
+["ngay va dem|tai sao co ngay va dem|ngay dem","Ngày và đêm do Trái Đất tự quay quanh trục, mất khoảng 24 giờ (chính xác hơn là 23 giờ 56 phút so với các sao). Nửa hướng về Mặt Trời là ban ngày, nửa còn lại là ban đêm."],
+["ve tinh tu nhien|ve tinh la gi","Vệ tinh tự nhiên là thiên thể quay quanh một hành tinh. Trái Đất có 1 (Mặt Trăng), Sao Hỏa có 2 (Phobos, Deimos), còn Sao Mộc và Sao Thổ có số lượng rất lớn."],
+["sao bang|thien thach|sao roi","Sao băng là vệt sáng khi một mảnh vật chất nhỏ (thiên thạch) lao vào khí quyển Trái Đất và bị nung nóng do ma sát. Mảnh nào rơi xuống được mặt đất gọi là thiên thạch."],
+["vet den mat troi|vet den","Vết đen Mặt Trời là vùng trên bề mặt có nhiệt độ thấp hơn xung quanh (khoảng 3 800 K) nên trông tối hơn. Chúng liên quan đến từ trường mạnh và số lượng thay đổi theo chu kỳ khoảng 11 năm."],
+["gio mat troi|cuc quang","Gió Mặt Trời là dòng hạt tích điện từ Mặt Trời thổi ra không gian. Khi chúng đi vào khí quyển ở gần hai cực từ của Trái Đất sẽ gây ra cực quang."],
+["vet do lon|vet do sao moc","Vết Đỏ Lớn là một cơn bão khổng lồ trên Sao Mộc, rộng hơn Trái Đất, đã được quan sát từ hơn 300 năm nay."],
+["vanh dai sao tho|vanh sao tho","Vành đai Sao Thổ gồm vô số mảnh băng và đá, từ hạt bụi đến khối lớn cỡ ngôi nhà, trải rộng hàng trăm nghìn km nhưng rất mỏng."],
+["van toc anh sang|toc do anh sang","Tốc độ ánh sáng trong chân không khoảng 300 000 km/s. Ánh sáng Mặt Trời đến Trái Đất mất khoảng 8 phút 20 giây."],
+["chuyen dong tron deu|cong thuc chuyen dong tron deu|toc do chuyen dong tron deu|toc do dai|toc do goc|gia toc huong tam|cong thuc toc do tron","Trong chuyển động tròn đều, tốc độ dài v = 2πr/T = ωr, trong đó r là bán kính, T là chu kỳ. Tốc độ góc ω = 2π/T = 2πf, với tần số f = 1/T. Gia tốc hướng tâm a = v²/r = ω²r. Ví dụ Trái Đất quay quanh Mặt Trời: r = 1,496×10⁸ km, T = 365,25 ngày nên v ≈ 29,8 km/s."],
+["he mat troi","Hệ Mặt Trời gồm Mặt Trời, 8 hành tinh cùng các vệ tinh, hành tinh lùn, tiểu hành tinh và sao chổi. Bạn có thể hỏi về từng hành tinh, các định luật Kepler hay lực hấp dẫn."],
+["gioi thieu ban than|gioi thieu ve ban than|tu gioi thieu|gioi thieu di|ban la ai|ban ten gi|kiet la ai|ban la gi|ten ban la gi","Chào bạn, (cười) mình là Kiệt, Kiệt gì cũng biết. Mà thật ra là biết về Hệ Mặt Trời thôi nhé! Mình là trợ lý hỏi đáp Vật lí 11: hành tinh, định luật Kepler, lực hấp dẫn, thủy triều, nhật thực… Bạn cứ hỏi bằng giọng nói hoặc gõ chữ."],
+["xin chao|chao ban|hello|hi kiet|chao kiet","Chào bạn, mình là Kiệt. Bạn muốn hỏi gì về Hệ Mặt Trời?"]
+];
+var CHIPS=["Sao Hỏa cách Mặt Trời bao xa?","Định luật Kepler 3","Vì sao Sao Kim nóng hơn Sao Thủy?","Nếu Mặt Trời biến mất thì sao?","Điểm Lagrange là gì?","Làm sao biết khí quyển hành tinh?"];
+
+/* ---------- XỬ LÝ CÂU HỎI ---------- */
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9., ]/g," ")}
+function pad(s){return " "+s.replace(/[.,]/g," ").replace(/\s+/g," ").trim()+" "}
+function hit(q,keys){var best=0;keys.split("|").forEach(function(k){if(q.indexOf(" "+k+" ")>=0&&k.length>best)best=k.length});return best}
+function fmt(x){return String(+x.toFixed(3)).replace(".",",")}
+
+/* ---------- TÍNH TOÁN CHUYỂN ĐỘNG TRÒN ĐỀU ---------- */
+function fmtN(x){var a=Math.abs(x);if(a!==0&&(a>=1e6||a<1e-3)){var e=Math.floor(Math.log10(a)),m=x/Math.pow(10,e);var sup=String(e).split("").map(function(c){return c==="-"?"⁻":"⁰¹²³⁴⁵⁶⁷⁸⁹".charAt(+c)}).join("");return String(+m.toPrecision(4)).replace(".",",")+"×10"+sup}return String(+x.toPrecision(4)).replace(".",",")}
+function circular(raw){
+ var n=norm(raw.replace(/m\s*\/\s*s\s*(?:²|\^?2)/gi," mps2 "));
+ if(/kepler|dinh luat/.test(n))return null;
+ if(!/tron|quay|vong|rad|toc do goc|toc do dai|gia toc huong tam|tan so|chu ky/.test(n))return null;
+ var N="(\\d+(?:[.,]\\d+)?)",g={},txt=" "+n+" ";
+ function num(x){return parseFloat(x.replace(",","."))}
+ function take(re,fn){var m=txt.match(new RegExp(re));if(m){fn(m);txt=txt.replace(m[0]," ")}}
+ take(N+"\\s*mps2",function(m){g.a=num(m[1])});
+ take(N+"\\s*(km|m)\\s*(s|h|giay|gio)\\b",function(m){g.v=num(m[1])*(m[2]==="km"?1000:1)/((m[3]==="h"||m[3]==="gio")?3600:1)});
+ take(N+"\\s*met\\s*tren\\s*giay",function(m){g.v=num(m[1])});
+ take(N+"\\s*rad\\b",function(m){g.w=num(m[1])});
+ take(N+"\\s*vong\\s*(phut|min|giay|s)\\b",function(m){g.f=num(m[1])/((m[2]==="phut"||m[2]==="min")?60:1)});
+ take(N+"\\s*rpm\\b",function(m){g.f=num(m[1])/60});
+ take(N+"\\s*hz\\b",function(m){g.f=num(m[1])});
+ take(N+"\\s*(giay|phut|gio|ngay|nam|s|h)\\b",function(m){var k={giay:1,s:1,phut:60,gio:3600,h:3600,ngay:86400,nam:365.25*86400}[m[2]];g.T=num(m[1])*k});
+ take(N+"\\s*(km|cm|mm|au|m)\\b",function(m){var k={km:1000,m:1,cm:.01,mm:.001,au:1.496e11}[m[2]];g.r=num(m[1])*k*((/duong kinh/.test(n)&&!/ban kinh/.test(n))?.5:1)});
+ var orig={};for(var k in g)orig[k]=1;
+ if(!Object.keys(orig).length)return null;
+ var steps=[],F=fmtN,P2=2*Math.PI;
+ var R=[
+  ["f",["T"],function(){return 1/g.T},function(v){return "f = 1/T = 1/"+F(g.T)+" = "+F(v)+" Hz"}],
+  ["T",["f"],function(){return 1/g.f},function(v){return "T = 1/f = 1/"+F(g.f)+" = "+F(v)+" s"}],
+  ["w",["T"],function(){return P2/g.T},function(v){return "ω = 2π/T = 2π/"+F(g.T)+" = "+F(v)+" rad/s"}],
+  ["T",["w"],function(){return P2/g.w},function(v){return "T = 2π/ω = 2π/"+F(g.w)+" = "+F(v)+" s"}],
+  ["f",["w"],function(){return g.w/P2},function(v){return "f = ω/2π = "+F(g.w)+"/2π = "+F(v)+" Hz"}],
+  ["v",["r","w"],function(){return g.w*g.r},function(v){return "v = ωr = "+F(g.w)+" × "+F(g.r)+" = "+F(v)+" m/s"}],
+  ["w",["v","r"],function(){return g.v/g.r},function(v){return "ω = v/r = "+F(g.v)+"/"+F(g.r)+" = "+F(v)+" rad/s"}],
+  ["r",["v","w"],function(){return g.v/g.w},function(v){return "r = v/ω = "+F(g.v)+"/"+F(g.w)+" = "+F(v)+" m"}],
+  ["a",["v","r"],function(){return g.v*g.v/g.r},function(v){return "a = v²/r = "+F(g.v)+"²/"+F(g.r)+" = "+F(v)+" m/s²"}],
+  ["a",["w","r"],function(){return g.w*g.w*g.r},function(v){return "a = ω²r = "+F(g.w)+"² × "+F(g.r)+" = "+F(v)+" m/s²"}],
+  ["v",["a","r"],function(){return Math.sqrt(g.a*g.r)},function(v){return "v = √(ar) = √("+F(g.a)+" × "+F(g.r)+") = "+F(v)+" m/s"}],
+  ["r",["a","v"],function(){return g.v*g.v/g.a},function(v){return "r = v²/a = "+F(g.v)+"²/"+F(g.a)+" = "+F(v)+" m"}],
+  ["r",["a","w"],function(){return g.a/(g.w*g.w)},function(v){return "r = a/ω² = "+F(g.a)+"/"+F(g.w)+"² = "+F(v)+" m"}],
+  ["w",["a","r"],function(){return Math.sqrt(g.a/g.r)},function(v){return "ω = √(a/r) = √("+F(g.a)+"/"+F(g.r)+") = "+F(v)+" rad/s"}]
+ ];
+ for(var pass=0;pass<6;pass++)R.forEach(function(r){
+  if(g[r[0]]!==undefined)return;
+  for(var i=0;i<r[1].length;i++)if(!(g[r[1][i]]>0))return;
+  var v=r[2]();if(isFinite(v)&&v>0){g[r[0]]=v;steps.push([r[0],r[3](v)])}
+ });
+ var K=[["T",/chu ky/],["f",/tan so/],["w",/toc do goc|omega/],["v",/toc do dai|van toc|toc do(?! goc)/],["a",/gia toc/],["r",/ban kinh|duong kinh/]];
+ var L={T:"Chu kỳ",f:"Tần số",w:"Tốc độ góc",v:"Tốc độ dài",a:"Gia tốc hướng tâm",r:"Bán kính"};
+ var tg=[];K.forEach(function(x){if(x[1].test(n)&&!orig[x[0]])tg.push(x[0])});
+ var last=steps.length-1;
+ if(tg.length){
+  last=-1;steps.forEach(function(s,i){if(tg.indexOf(s[0])>=0)last=i});
+  if(last<0)return /tron deu|vong tron/.test(n)?"Với dữ kiện này mình chưa tính được. Chuyển động tròn đều cần ít nhất hai đại lượng, ví dụ bán kính và chu kỳ, hoặc bán kính và tốc độ dài. Bạn cho mình thêm dữ kiện nhé.":null;
+ }
+ if(last<0)return null;
+ return "Chuyển động tròn đều (đổi về đơn vị SI):\n"+steps.slice(0,last+1).map(function(s){return L[s[0]]+": "+s[1]}).join("\n");
+}
+
+/* ---------- CAU HOI NANG CAO ---------- */
+var ADV=[
+["mat troi bien mat|mat troi dot ngot bien mat|mat troi bien mat bao lau","Nếu Mặt Trời đột ngột biến mất, Trái Đất chỉ nhận ra sau khoảng 8 phút 20 giây, vì ánh sáng và sự thay đổi hấp dẫn truyền với tốc độ ánh sáng. Sau đó, Trái Đất không còn bị giữ trên quỹ đạo và sẽ tiếp tục chuyển động gần theo đường thẳng, theo phương tiếp tuyến với quỹ đạo tại thời điểm ấy."],
+["sao kim nong hon sao thuy|tai sao sao kim nong hon sao thuy|kim nong hon thuy","Sao Kim nóng hơn Sao Thủy chủ yếu do hiệu ứng nhà kính cực mạnh. Khí quyển rất dày, giàu carbon dioxide, giữ nhiệt khiến bề mặt khoảng 465°C. Sao Thủy gần Mặt Trời hơn nhưng gần như không có khí quyển để giữ nhiệt."],
+["sao moc gap 80 lan|sao moc tang 80 lan|sao moc tro thanh ngoi sao|sao moc thanh mat troi","Nếu Sao Mộc có khối lượng gấp khoảng 80 lần hiện tại, nó có thể đạt gần ngưỡng đốt hiđrô và trở thành sao lùn đỏ khối lượng rất thấp. Ngưỡng thường vào khoảng 75–80 lần khối lượng Sao Mộc, tùy thành phần. Đây không phải là kết quả chắc chắn chỉ dựa vào con số 80."],
+["hanh tinh cung mat phang|cac hanh tinh cung mat phang|hanh tinh cung chieu|vi sao cung mat phang","Các hành tinh hình thành từ một đĩa khí và bụi quay quanh Mặt Trời trẻ. Khi đám mây co lại, vật chất dàn thành đĩa tương đối phẳng; bụi kết tụ thành các tiền hành tinh. Vì vậy các quỹ đạo gần cùng mặt phẳng và phần lớn cùng chiều."],
+["trai dat ngung tu quay|trai dat dung tu quay|neu trai dat ngung quay","Nếu Trái Đất đột ngột ngừng tự quay, khí quyển và đại dương vẫn tiếp tục chuyển động do quán tính, gây gió và dòng nước cực kỳ dữ dội. Một ngày Mặt Trời sẽ kéo dài gần một năm, với khoảng nửa năm ban ngày và nửa năm ban đêm ở mỗi nơi. Đây là giả định lý tưởng hóa."],
+["thien vuong nghieng 98|truc quay thien vuong|tai sao thien vuong nghieng|thien vuong nghieng","Sao Thiên Vương nghiêng gần 98° nên gần như lăn trên quỹ đạo. Giả thuyết nổi bật cho rằng một hoặc nhiều vụ va chạm lớn trong giai đoạn hình thành đã làm thay đổi mạnh trục quay. Chi tiết chính xác vẫn còn được nghiên cứu."],
+["mat troi thanh lo den|lo den cung khoi luong mat troi|lo den khoi luong mat troi","Nếu Mặt Trời biến thành lỗ đen nhưng giữ nguyên khối lượng, quỹ đạo Trái Đất về cơ bản không đổi. Ở xa, lực hấp dẫn phụ thuộc chủ yếu vào khối lượng. Nhưng Trái Đất sẽ mất ánh sáng và nhiệt, khiến bề mặt lạnh đi và sự sống hiện nay khó duy trì."],
+["sao tho mat do nho hon nuoc|mat do sao tho|sao tho noi tren nuoc","Mật độ trung bình Sao Thổ nhỏ hơn nước vì nó chủ yếu gồm hiđrô và hêli. Tuy vậy, lực hấp dẫn tự nén vật chất thành hành tinh khổng lồ; càng sâu, áp suất và nhiệt độ càng lớn. Việc Sao Thổ có thể nổi trên nước chỉ là phép so sánh mật độ, không có nghĩa có thể thả nó vào đại dương."],
+["hai vuong nong hon thien vuong|sao hai vuong nong hon|vi sao hai vuong nong hon","Sao Hải Vương phát ra lượng nhiệt nội tại đáng kể, trong khi Sao Thiên Vương phát ra rất ít nhiệt nội tại so với dự đoán. Nguồn nhiệt bên trong và sự vận chuyển nhiệt trong khí quyển góp phần khiến Sao Hải Vương có khí quyển hoạt động mạnh và ấm hơn ở một số tầng."],
+["hanh tinh quay nguoc chieu|quay quanh mat troi nguoc chieu|quy dao nguoc chieu","Về vật lý, một hành tinh có thể có quỹ đạo ngược chiều. Tuy nhiên, các hành tinh Hệ Mặt Trời hình thành từ cùng một đĩa vật chất nên gần như cùng chiều. Thiên thể ngược chiều có thể là vật thể bị bắt giữ hoặc bị biến đổi quỹ đạo bởi tương tác hấp dẫn."],
+["mat trang bien mat|mat trang dot ngot bien mat|neu mat trang bien mat","Nếu Mặt Trăng biến mất, thủy triều vẫn còn do Mặt Trời gây ra nhưng yếu hơn đáng kể. Trái Đất cũng mất một yếu tố giúp ổn định độ nghiêng trục quay trong thời gian dài; độ nghiêng có thể biến đổi mạnh hơn qua hàng triệu năm, ảnh hưởng đến khí hậu và các mùa."],
+["vanh dai tieu hanh tinh khong tao thanh hanh tinh|tai sao vanh dai tieu hanh tinh|sao moc ngan can hanh tinh","Vành đai tiểu hành tinh có tổng khối lượng nhỏ và chịu nhiễu loạn hấp dẫn mạnh từ Sao Mộc. Nhiễu loạn làm tăng vận tốc tương đối, khiến va chạm dễ phá vỡ vật thể thay vì giúp chúng kết tụ thành hành tinh."],
+["trai dat xa mat troi 10 phan tram|trai dat xa mat troi them 10|trai dat di xa mat troi","Nếu Trái Đất xa Mặt Trời thêm 10%, năng lượng nhận được giảm còn 1/1,1², tức giảm khoảng 17%. Nhiệt độ cân bằng bức xạ lý tưởng giảm khoảng 12 K. Khí hậu thực tế còn phụ thuộc mây, băng, đại dương và hiệu ứng nhà kính."],
+["dai duong duoi bang|nuoc long duoi lop bang|bien ngam hanh tinh xa mat troi","Có thể có đại dương nước lỏng dưới lớp băng ở xa Mặt Trời. Nhiệt từ phân rã phóng xạ bên trong và nhiệt do lực thủy triều làm biến dạng thiên thể có thể duy trì nước lỏng. Europa và Enceladus là những ví dụ được quan tâm."],
+["cac hanh tinh bien mat mat troi|hanh tinh bien mat mat troi co ton tai|mat troi khong co hanh tinh","Nếu các hành tinh biến mất, Mặt Trời vẫn tiếp tục phát sáng gần như bình thường. Năng lượng của nó đến từ phản ứng nhiệt hạch trong lõi, không phải từ các hành tinh. Chuyển động của Mặt Trời quanh khối tâm hệ sẽ thay đổi."],
+["diem lagrange|lagrange l1 l2 l3|lagrange l4 l5","Các điểm Lagrange là vị trí trong hệ hai vật thể lớn, nơi lực hấp dẫn và hiệu ứng quán tính trong hệ quay cho phép vật thể nhỏ giữ vị trí tương đối. L1, L2, L3 thường không ổn định. L4 và L5 có thể ổn định nếu tỉ số khối lượng đủ nhỏ; các tiểu hành tinh Trojan của Sao Mộc nằm gần những vùng này."],
+["xac dinh khi quyen hanh tinh|thanh phan khi quyen hanh tinh|quang pho hanh tinh","Các nhà khoa học dùng quang phổ học. Phân tử trong khí quyển hấp thụ hoặc phát xạ những bước sóng đặc trưng. Phân tích các vạch và dải phổ giúp nhận biết hơi nước, carbon dioxide, methane và nhiều chất khác mà không cần đưa tàu thăm dò đến đó."],
+["vat the khoi luong trai dat di vao he mat troi|hanh tinh lien sao vao he mat troi|vat the lien sao lam mat on dinh quy dao","Một vật thể khối lượng bằng Trái Đất có thể gây nhiễu loạn hấp dẫn, nhưng không chắc làm các hành tinh mất ổn định. Ảnh hưởng phụ thuộc khoảng cách tiếp cận, tốc độ, hướng bay, khối lượng và thời gian ở gần. Bay rất gần có thể làm thay đổi quỹ đạo; đi qua xa thường chỉ gây nhiễu loạn nhỏ."],
+["vi sao co mua tren trai dat|mua tren trai dat do dau","Các mùa chủ yếu do trục Trái Đất nghiêng khoảng 23,5° so với phương vuông góc mặt phẳng quỹ đạo. Bán cầu nghiêng về phía Mặt Trời nhận ánh sáng trực tiếp hơn và có ngày dài hơn nên bước vào mùa hè."],
+["tai sao mat trang luon huong mot mat|mat trang chi thay mot mat","Mặt Trăng gần như luôn hướng cùng một mặt về Trái Đất vì nó bị khóa thủy triều. Qua thời gian, lực hấp dẫn Trái Đất làm chu kỳ tự quay của Mặt Trăng bằng chu kỳ quay quanh Trái Đất, khoảng 27,3 ngày."],
+["lo den co hut moi thu khong|lo den co hut trai dat khong","Lỗ đen không hút mọi vật ở mọi khoảng cách như máy hút bụi. Nếu Mặt Trời được thay bằng lỗ đen cùng khối lượng, Trái Đất vẫn giữ quỹ đạo gần như cũ. Nguy hiểm cực lớn chỉ xuất hiện khi đến rất gần lỗ đen."],
+["mat troi se song bao lau|tuoi tho mat troi|mat troi khi nao tat","Mặt Trời khoảng 4,6 tỉ năm tuổi và dự kiến còn khoảng 5 tỉ năm ở giai đoạn đốt hiđrô chính. Sau đó nó phồng thành sao khổng lồ đỏ, thải lớp vỏ ngoài và để lại sao lùn trắng."]
+];
+function advancedAnswer(q){
+ // Nhận diện theo cụm từ chính và độ trùng các từ khóa, không bắt buộc
+ // người hỏi phải dùng đúng nguyên văn câu mẫu.
+ var best=0,result=null;
+ ADV.forEach(function(item){
+  item[0].split("|").forEach(function(phrase){
+   var words=phrase.split(/\s+/).filter(Boolean),matched=0;
+   words.forEach(function(w){if(q.indexOf(" "+w+" ")>=0)matched++});
+   var coverage=matched/Math.max(words.length,1);
+   var score=matched>=2?coverage*100+Math.min(words.length,12):0;
+   // Cụm chính xác được ưu tiên; câu diễn đạt lại vẫn có thể khớp.
+   if(q.indexOf(" "+phrase+" ")>=0)score+=35;
+   if(score>best){best=score;result=item[1]}
+  });
+ });
+ return best>=67?result:null;
+}
+
+function answer(raw){
+ var n=norm(raw),q=pad(n),m;
+ var adv=advancedAnswer(q);if(adv)return adv;
+ var circ=circular(raw);if(circ)return circ;
+ m=n.match(/(\d+(?:[.,]\d+)?)\s*(?:au|dvtv|don vi thien van)\b/);
+ if(m){var a=parseFloat(m[1].replace(",","."));
+  if(a>0)return "Theo định luật Kepler 3, T² = a³. Với a = "+fmt(a)+" AU thì T = √("+fmt(a)+"³) = "+fmt(Math.sqrt(a*a*a))+" năm."}
+ var pl=null,pb=0;
+ P.forEach(function(p){var s=hit(q,p.k);if(s>pb){pb=s;pl=p}});
+ if(pl){
+  var at=null,ab=0;
+  ATTR.forEach(function(x){var s=hit(q,x[1]);if(s>ab){ab=s;at=x[0]}});
+  var n2=pl.n;
+  switch(at){
+   case "dist":return n2+" cách Mặt Trời khoảng "+pl.a+" AU, tức "+pl.d+" triệu km.";
+   case "dia":return "Đường kính của "+n2+" khoảng "+pl.dia+" km.";
+   case "T":return "Chu kỳ quay quanh Mặt Trời của "+n2+" là "+pl.T+".";
+   case "rot":return "Chu kỳ tự quay của "+n2+" là "+pl.rot+".";
+   case "moons":return n2+" có "+pl.m+".";
+   case "temp":return "Nhiệt độ của "+n2+": "+pl.t+".";
+   case "mass":return "Khối lượng của "+n2+" khoảng "+pl.M+" kg.";
+  }
+  return n2+": cách Mặt Trời "+pl.a+" AU ("+pl.d+" triệu km); đường kính "+pl.dia+" km; chu kỳ quỹ đạo "+pl.T+"; tự quay "+pl.rot+"; "+pl.m+"; nhiệt độ "+pl.t+"; khối lượng "+pl.M+" kg."
+ }
+ var g=null,gb=0;
+ G.forEach(function(x){var s=hit(q,x[0]);if(s>gb){gb=s;g=x[1]}});
+ if(g)return g;
+ return "Mình chưa có thông tin về câu hỏi này. Bạn thử hỏi về: một hành tinh (khoảng cách, đường kính, chu kỳ…), định luật Kepler, lực hấp dẫn, vận tốc vũ trụ, thủy triều, nhật thực, các mùa…"
+}
+
+/* ---------- KHUÔN MẶT ---------- */
+var el={bl:$("bl"),br:$("br"),pl:$("pl"),pr:$("pr"),ll:$("ll"),lr:$("lr"),mo:$("mo")};
+var speaking=false,mouth=0,mTarget=0,mNext=0,blinkAt=2500,blinkStart=-1,gx=0,gy=0,gtx=0,gty=0,gNext=0;
+function setMouth(o){
+ var u=244,l=244+o*36,w=36-o*4;
+ el.mo.setAttribute("d","M"+(150-w-0)+" 236Q150 "+u+" "+(150+w)+" 236Q150 "+l+" "+(150-w)+" 236Z");
+}
+function frame(ts){
+ if(ts>blinkAt&&blinkStart<0){blinkStart=ts}
+ var lid=0;
+ if(blinkStart>=0){var p=(ts-blinkStart)/180;if(p>=1){blinkStart=-1;blinkAt=ts+2000+Math.random()*3500}else lid=1-Math.abs(2*p-1)}
+ el.ll.setAttribute("height",(lid*32).toFixed(1));el.lr.setAttribute("height",(lid*32).toFixed(1));
+ if(ts>gNext){gtx=(Math.random()-.5)*10;gty=(Math.random()-.5)*5;gNext=ts+1200+Math.random()*2200}
+ gx+=(gtx-gx)*.12;gy+=(gty-gy)*.12;
+ var t="translate("+gx.toFixed(1)+" "+gy.toFixed(1)+")";
+ el.pl.setAttribute("transform",t);el.pr.setAttribute("transform",t);
+ if(speaking){if(ts>mNext){mTarget=Math.random()>.3?.35+Math.random()*.65:.08;mNext=ts+90+Math.random()*70}}else mTarget=0;
+ mouth+=(mTarget-mouth)*.35;setMouth(mouth);
+ var br=speaking?-3*Math.pow(Math.sin(ts/380),2):0;
+ el.bl.setAttribute("transform","translate(0 "+br.toFixed(1)+")");el.br.setAttribute("transform","translate(0 "+br.toFixed(1)+")");
+ requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ---------- GIỌNG ĐỌC ---------- */
+var synth=window.speechSynthesis,voices=[],muted=false,vsel=$("vsel"),fake=0;
+function maleName(v){var n=v.name;return /namminh|\bnam\b|\bminh\b|\bmale\b|hung|\bduc\b|giang|\bson\b/i.test(n)&&!/female|hoai|\bmy\b|linh|\bmai\b/i.test(n)}
+var picked=false,hasMale=false;
+function loadVoices(){
+ if(!synth)return;
+ var all=synth.getVoices(),vi=all.filter(function(v){return /^vi/i.test(v.lang)});
+ voices=vi.length?vi:all;
+ var cur=picked?vsel.value:"";vsel.innerHTML="";
+ voices.forEach(function(v,i){var o=document.createElement("option");o.value=i;o.textContent=v.name+(maleName(v)?" (nam)":"");vsel.appendChild(o)});
+ if(!voices.length){var o=document.createElement("option");o.textContent="Giọng mặc định";vsel.appendChild(o);return}
+ var pick=-1;voices.forEach(function(v,i){if(pick<0&&maleName(v))pick=i});hasMale=pick>=0;
+ vsel.value=cur!==""&&voices[cur]?cur:(pick>=0?pick:0);
+}
+loadVoices();if(synth)synth.onvoiceschanged=loadVoices;
+vsel.onchange=function(){picked=true};
+function spoken(s){
+ return s.replace(/\((?:cười|cuoi)\)/gi,"ha ha ha, ").replace(/×10([⁻⁰-⁹]+)/g,function(_,e){return " nhân 10 mũ "+e.split("").map(function(c){return c==="⁻"?"âm ":"⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)}).join("")})
+  .replace(/²/g," bình phương").replace(/³/g," lập phương").replace(/₁/g," 1").replace(/₂/g," 2")
+  .replace(/√/g,"căn ").replace(/−/g,"âm ").replace(/°C/g," độ C").replace(/\bAU\b/g,"đơn vị thiên văn")
+  .replace(/\bkm\/s\b/g,"ki-lô-mét trên giây").replace(/\bkm\b/g,"ki-lô-mét").replace(/\bkg\b/g,"ki-lô-gam")
+  .replace(/\bK\b/g," ken-vin").replace(/×/g," nhân ").replace(/√/g," căn ").replace(/\brad\/s\b/g," ra-đi-an trên giây").replace(/\bm\/s\b/g," mét trên giây").replace(/\bHz\b/g," héc").replace(/(\d)\s*m(?=[\s.,;:!?)]|$)/g,"$1 mét").replace(/(\d)\s*s(?=[\s.,;:!?)]|$)/g,"$1 giây").replace(/π/g," pi ").replace(/ω/g," ô-mê-ga ").replace(/≈/g," xấp xỉ ").replace(/=/g," bằng ").replace(/\//g," chia ").replace(/\n/g,". ");
+}
+var tok=0;
+function speak(text){
+ clearTimeout(fake);var my=++tok;
+ if(synth)synth.cancel();
+ if(muted||!synth){speaking=false;return}
+ // Phát một utterance duy nhất để tránh lỗi hàng đợi khi câu trả lời
+ // có nhiều câu/đoạn. Không phát đồng thời nhiều utterance.
+ speaking=true;
+ setTimeout(function(){
+  if(my!==tok||muted)return;
+  try{
+   if(!voices.length)loadVoices();
+   var u=new SpeechSynthesisUtterance(spoken(text));
+   var idx=parseInt(vsel.value,10),v=voices[idx];
+   u.lang=(v&&v.lang)||"vi-VN";
+   if(v)u.voice=v;
+   u.rate=parseFloat($("rate").value)||1;
+   u.pitch=(v&&maleName(v))?1:.55;if(!(v&&maleName(v)))u.rate=Math.max(.7,u.rate*.92);
+   u.onstart=function(){if(my===tok)speaking=true};
+   u.onend=function(){if(my===tok)speaking=false};
+   u.onerror=function(){if(my===tok)speaking=false};
+   synth.speak(u);
+  }catch(e){speaking=false;}
+ },120);
+}
+
+/* ---------- GIAO DIỆN ---------- */
+function ask(text){
+ text=(text||"").trim();if(!text)return;
+ $("you").textContent="Bạn hỏi: "+text;
+ var r;try{r=answer(text)}catch(e){r="Lỗi khi xử lý: "+e.message}
+ ans.className="";
+ if(/\((?:cười|cuoi)\)/i.test(r)&&synth&&!muted){ans.textContent="🔊 Kiệt đang trả lời bằng giọng nói…";speak(r)}
+ else{ans.textContent=r.replace(/\((?:cười|cuoi)\)\s*/gi,"");speak(r)}
+}
+$("go").onclick=function(){ask($("q").value);$("q").value=""};
+$("q").addEventListener("keydown",function(e){if(e.key==="Enter"){ask(this.value);this.value=""}});
+$("mute").onclick=function(){
+ muted=!muted;this.textContent=muted?"🔇 Âm thanh: tắt":"🔊 Âm thanh: bật";this.setAttribute("aria-pressed",muted);
+ if(muted&&synth){synth.cancel();speaking=false}
+};
+CHIPS.forEach(function(c){var b=document.createElement("button");b.textContent=c;b.onclick=function(){ask(c)};$("chips").appendChild(b)});
+
+var SRc=window.SpeechRecognition||window.webkitSpeechRecognition,mic=$("mic"),listening=false,errShown=false;
+function say(m){ans.className="";ans.textContent=m}
+if(!SRc){mic.disabled=true;mic.title="Trình duyệt này không hỗ trợ nhận giọng nói. Hãy dùng Chrome hoặc Edge, hoặc gõ chữ.";
+ say("Trình duyệt này không hỗ trợ hỏi bằng giọng nói. Hãy mở bằng Chrome hoặc Edge (Firefox và Safari không hỗ trợ), hoặc gõ câu hỏi vào ô chữ.")}
+else{
+ var rec=new SRc(),finalTx="";
+ rec.lang="vi-VN";rec.interimResults=true;rec.continuous=false;rec.maxAlternatives=1;
+ rec.onstart=function(){listening=true;errShown=false;finalTx="";mic.classList.add("on");$("you").textContent="🎤 Đang nghe… hãy nói câu hỏi"};
+ rec.onresult=function(e){
+  var it="";
+  for(var i=e.resultIndex;i<e.results.length;i++){var r=e.results[i];if(r.isFinal)finalTx+=r[0].transcript;else it+=r[0].transcript}
+  $("you").textContent="🎤 "+(finalTx+it);
+ };
+ rec.onend=function(){
+  listening=false;mic.classList.remove("on");
+  var t=finalTx.trim();finalTx="";
+  if(t)ask(t);else if(!errShown)say("Mình chưa nghe rõ. Bạn bấm 🎤 và nói lại nhé.");
+ };
+ rec.onerror=function(e){
+  if(e.error==="aborted")return;
+  errShown=true;
+  var m={
+   "not-allowed":"Trình duyệt đang chặn micro. Bấm biểu tượng ổ khóa cạnh thanh địa chỉ → cho phép Micro rồi bấm 🎤 lại."+(location.protocol==="file:"?" Bạn đang mở file trực tiếp từ máy; nên mở qua GitHub Pages (https) hoặc localhost để micro hoạt động ổn định.":""),
+   "service-not-allowed":"Trình duyệt không cho dùng nhận giọng nói ở trang này. Hãy mở qua https (GitHub Pages) hoặc localhost.",
+   "audio-capture":"Không tìm thấy micro. Hãy kiểm tra micro đã cắm và chọn đúng trong cài đặt hệ thống.",
+   "no-speech":"Mình không nghe thấy tiếng nói. Bạn bấm 🎤 và nói lại nhé.",
+   "network":"Nhận giọng nói của Chrome và Edge cần kết nối Internet. Hãy kiểm tra mạng rồi thử lại.",
+   "language-not-supported":"Trình duyệt không hỗ trợ tiếng Việt cho nhận giọng nói."
+  }[e.error]||("Lỗi micro: "+e.error);
+  say(m);
+ };
+ mic.onclick=function(){
+  if(listening){rec.stop();return}
+  if(synth)synth.cancel();speaking=false;tok++;
+  try{rec.start()}catch(err){say("Không bật được micro: "+err.message)}
+ };
+}
+
+ans.className="";
+var hello="Chào bạn, mình là Kiệt. Hãy hỏi mình về Hệ Mặt Trời nhé: hành tinh, định luật Kepler, lực hấp dẫn…";
+ans.textContent=hello;
+}catch(e){showErr(e.message)}
+})();
+</script>
+</body>
+</html>
